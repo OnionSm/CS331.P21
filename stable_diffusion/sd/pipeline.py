@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 from tqdm import tqdm
-from ddpm import DDPMSampler
+from sd.ddpm import DDPMSampler
 
 WIDTH = 512
 HEIGHT = 512
@@ -47,6 +47,8 @@ def generate(
             cond_tokens = tokenizer.batch_encode_plus(
                 [prompt], padding="max_length", max_length=77
             ).input_ids
+            print(cond_tokens)
+            print(len(cond_tokens[0]))
             # (Batch_Size, Seq_Len)
             cond_tokens = torch.tensor(cond_tokens, dtype=torch.long, device=device)
             # (Batch_Size, Seq_Len) -> (Batch_Size, Seq_Len, Dim)
@@ -55,6 +57,8 @@ def generate(
             uncond_tokens = tokenizer.batch_encode_plus(
                 [uncond_prompt], padding="max_length", max_length=77
             ).input_ids
+            print(uncond_tokens)
+            print(len(uncond_tokens[0]))
             # (Batch_Size, Seq_Len)
             uncond_tokens = torch.tensor(uncond_tokens, dtype=torch.long, device=device)
             # (Batch_Size, Seq_Len) -> (Batch_Size, Seq_Len, Dim)
